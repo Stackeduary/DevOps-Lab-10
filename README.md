@@ -1,1 +1,1 @@
-# DevOps Lab 10 Monitoring with Prometheus
+# Lab 10 Monitoring with Prometheus
