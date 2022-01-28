@@ -1,0 +1,54 @@
+global:
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  evaluation_interval: 15s
+
+scrape_configs:
+- job_name: prometheus
+  honor_timestamps: true
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  metrics_path: /metrics
+  scheme: http
+  follow_redirects: true
+  static_configs:
+  - targets:
+      - localhost:9090
+
+- job_name: 'monitor-node-exporter'                  
+  static_configs:
+      - targets: ['172.17.90.50:9100']
+
+- job_name: 'monitor-cAdvisor'                  
+  static_configs:
+      - targets: ['172.17.90.50:8081']
+
+- job_name: 'frontend-node-exporter'                  
+  static_configs:
+      - targets: ['172.17.90.48:9100']
+
+- job_name: 'frontend-cAdvisor'                  
+  static_configs:
+      - targets: ['172.17.90.48:8081']
+
+- job_name: 'backend-node-exporter'                  
+  static_configs:
+      - targets: ['172.17.90.60:9100']
+
+- job_name: 'backend-cAdvisor'                  
+  static_configs:
+      - targets: ['172.17.90.60:8081']
+
+rule_files:
+  - rules.yml
+
+alerting:
+  alertmanagers:
+  - follow_redirects: true
+    scheme: http
+ #   timeout: 10s
+ #   api_version: v2
+ # Need to update Ip address of alert manager service
+    static_configs:
+    - targets:
+      - 172.17.90.50:9093

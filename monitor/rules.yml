@@ -1,0 +1,14 @@
+groups:
+- name: AllInstances
+  rules:
+  - alert: InstanceDown
+    # condition for alerts
+    expr: absent(container_start_time_seconds{name="bill_application"})
+    for:
+    # annotation: additional information labels to store more information
+    annotations:
+      title: 'Instance {{ $labels.name }} down'
+      description: '{{ $labels.name }} instance has been down for more than 10 seconds.'
+    # labels: additional labels to attach to the alert
+    labels:
+      severity: 'critical'
